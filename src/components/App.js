@@ -4,12 +4,38 @@ import '../scss/main.scss';
 
 function App() { 
   const [numberOfErrors, setNumberOfErrors] = useState (0);
-  
+  const [lastLetter, setLastLetter] = useState ('');
+  const pattern = new RegExp('^[A-Z]+$', 'i');
   
   const handleClickBtn = (ev) => {
   ev.preventDefault();
     setNumberOfErrors (numberOfErrors+1);
   }
+  const handleChangeLetter =(ev) => {
+    ev.preventDefault();
+    const inputValue = ev.target.value;
+    let isValid = false;
+    
+    setLastLetter(inputValue);
+    if(!inputValue) {
+      isValid = false;
+  
+    }
+    else if {
+      (!pattern.test(inputValue))
+      isValid = false;
+    }
+    else {
+      isValid = true;
+    }
+     return isValid;
+     console.log(isValid);
+
+  
+    
+
+  }
+
 
   return <div className="page">
       <header>
@@ -52,6 +78,8 @@ function App() {
               type="text"
               name="last-letter"
               id="last-letter"
+              onChange={handleChangeLetter}
+              value={lastLetter}
             />
           </form>
         </section>
