@@ -5,7 +5,22 @@ import '../scss/main.scss';
 function App() { 
   const [numberOfErrors, setNumberOfErrors] = useState (0);
   const [lastLetter, setLastLetter] = useState ('');
-  const pattern = new RegExp('^[A-Z]+$', 'i');
+  const [word, setWord] = useState ('katakroker');
+ 
+
+  const renderSolutionLetters = (ev) => {
+    const wordLetters = word
+    .split('')
+    .map((oneLetter, idx) =>
+     <li key={idx} className="letter">{oneLetter}</li>
+
+    ) 
+
+  }
+
+  const handleSubmit = (ev) => {
+    ev.preventDefault();
+  }
   
   const handleClickBtn = (ev) => {
   ev.preventDefault();
@@ -13,27 +28,17 @@ function App() {
   }
   const handleChangeLetter =(ev) => {
     ev.preventDefault();
+    const pattern = new RegExp('^[A-Z]+$', 'i');
     const inputValue = ev.target.value;
-    let isValid = false;
     
-    setLastLetter(inputValue);
-    if(!inputValue) {
-      isValid = false;
-  
-    }
-    else if {
-      (!pattern.test(inputValue))
-      isValid = false;
+   
+    if (!pattern.test(inputValue)) {
+      setLastLetter('');
     }
     else {
-      isValid = true;
+      setLastLetter(inputValue);
     }
-     return isValid;
-     console.log(isValid);
-
   
-    
-
   }
 
 
@@ -47,6 +52,7 @@ function App() {
           <div className="solution">
             <h2 className="title">Solución:</h2>
             <ul className="letters">
+              {renderSolutionLetters(wordLetters)}
               <li className="letter">k</li>
               <li className="letter">a</li>
               <li className="letter"></li>
@@ -69,7 +75,7 @@ function App() {
               <li className="letter">x</li>
             </ul>
           </div>
-          <form className="form">
+          <form className="form" onSubmit={handleSubmit}>
             <label className="title" htmlFor="last-letter">Escribe una letra:</label>
             <input
               autocomplete="off"
