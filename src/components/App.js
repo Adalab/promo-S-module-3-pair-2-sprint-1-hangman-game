@@ -6,6 +6,7 @@ function App() {
   const [numberOfErrors, setNumberOfErrors] = useState (0);
   const [lastLetter, setLastLetter] = useState ('');
   const [word, setWord] = useState ('katakroker');
+  const [userLetters, setUserLetters] = useState ([]); 
  
 
   const renderSolutionLetters = (ev) => {
@@ -13,10 +14,10 @@ function App() {
     .split('')
     .map((oneLetter, idx) =>
      <li key={idx} className="letter">{oneLetter}</li>
-
-    ) 
-
+    )
+    return wordLetters; 
   }
+
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
@@ -26,21 +27,27 @@ function App() {
   ev.preventDefault();
     setNumberOfErrors (numberOfErrors+1);
   }
+
   const handleChangeLetter =(ev) => {
     ev.preventDefault();
     const pattern = new RegExp('^[A-Z]+$', 'i');
     const inputValue = ev.target.value;
-    
-   
     if (!pattern.test(inputValue)) {
       setLastLetter('');
     }
     else {
       setLastLetter(inputValue);
+      setUserLetters ([...userLetters,inputValue]);
     }
-  
   }
-
+  // Resolver esto: 
+  // const renderUserLetters = () =>{
+  //   if (inputValue wordLetters)
+  
+  //   return userLetters.map ((oneLetter, index) => (
+  //   <li key={index} className="letter">{oneLetter}</li>
+  //   ));
+  // }
 
   return <div className="page">
       <header>
@@ -52,31 +59,16 @@ function App() {
           <div className="solution">
             <h2 className="title">Solución:</h2>
             <ul className="letters">
-              {renderSolutionLetters(wordLetters)}
-              <li className="letter">k</li>
-              <li className="letter">a</li>
-              <li className="letter"></li>
-              <li className="letter">a</li>
-              <li className="letter">k</li>
-              <li className="letter">r</li>
-              <li className="letter"></li>
-              <li className="letter">k</li>
-              <li className="letter">e</li>
-              <li className="letter">r</li>
+              {renderSolutionLetters()}
             </ul>
           </div>
           <div className="error">
             <h2 className="title">Letras falladas:</h2>
             <ul className="letters">
-              <li className="letter">f</li>
-              <li className="letter">q</li>
-              <li className="letter">h</li>
-              <li className="letter">p</li>
-              <li className="letter">x</li>
+               {renderUserLetters()}
             </ul>
           </div>
-          <form className="form" onSubmit={handleSubmit}>
-            <label className="title" htmlFor="last-letter">Escribe una letra:</label>
+          <form className="form" onSubmit={handleSubmit}>            <label className="title" htmlFor="last-letter">Escribe una letra:</label>
             <input
               autocomplete="off"
               className="form__input"
